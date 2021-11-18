@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Model\OrderList;
 use Illuminate\Http\Request;
 
 class MovementRequestController extends Controller
@@ -13,7 +14,8 @@ class MovementRequestController extends Controller
      */
     public function index()
     {
-        return view('pages.movement-request.index');
+        $items = OrderList::where('status','pending')->get();
+        return view('pages.movement-request.index', compact('items'));
     }
 
     /**
@@ -68,7 +70,12 @@ class MovementRequestController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $item = OrderList::findOrFail($id);
+        $item->update([
+            'status'=>$request->status
+        ]);
+
+        return redirect()->route('movement-request.index')->with('success','Successfully changed status');
     }
 
     /**

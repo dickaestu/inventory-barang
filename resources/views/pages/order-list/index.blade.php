@@ -33,12 +33,17 @@
                                     <td>{{ $item->status }}</td>
                                     <td>{{ Carbon\Carbon::create($item->created_at)->format('d-m-Y H:i') }}</td>
                                     <td>
-                                        <a href="{{ route('order-list.edit',$item->id) }}" class="btn btn-warning btn-small btn-icon"><i class="fas fa-pencil-alt"></i></a>
-                                        <form class="d-inline" action="{{ route('order-list.destroy',$item->id) }}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button onclick="return confirm('Are you sure?')" type="submit" class="btn btn-danger btn-small btn-icon"><i class="fas fa-trash-alt"></i></button>
-                                        </form>
+                                        @if ($item->status == "pending")
+                                            <a href="{{ route('order-list.edit',$item->id) }}" class="btn btn-warning btn-small btn-icon"><i class="fas fa-pencil-alt"></i></a>
+                                            <form class="d-inline" action="{{ route('order-list.destroy',$item->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button onclick="return confirm('Are you sure?')" type="submit" class="btn btn-danger btn-small btn-icon"><i class="fas fa-trash-alt"></i></button>
+                                            </form>
+                                        @else 
+                                            <a href="#" class="btn btn-secondary disabled btn-small btn-icon"><i class="fas fa-pencil-alt"></i></a>
+                                            <a href="#" class="btn btn-secondary disabled btn-small btn-icon"><i class="fas fa-trash-alt"></i></a>
+                                        @endif
                                     </td>
                                 </tr>
                             @empty

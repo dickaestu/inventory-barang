@@ -14,7 +14,7 @@
                         <thead>
                             <tr>
                                 <th>Invoice No</th>
-                                <th>Package</th>
+                                <th>Product</th>
                                 <th>Name</th>
                                 <th>Phone</th>
                                 <th>Status</th>
@@ -23,18 +23,32 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @forelse ($items as $item)
                             <tr>
-                                <td>ORM-1</td>
-                                <td>Fiber Optic</td>
-                                <td>Andre Kresna</td>
-                                <td>08123123221</td>
-                                <td>Movement Request Approve By Admin</td>
-                                <td>01-01-2021 00:00</td>
+                                <td>ORM-{{ $item->id }}</td>
+                                <td>{{ $item->productList->product_name }}</td>
+                                <td>{{ $item->name }}</td>
+                                <td>{{ $item->phone_number }}</td>
+                                <td>{{ $item->status }}</td>
+                                <td>{{ Carbon\Carbon::create($item->created_at)->format('d-m-Y H:i') }}</td>
                                 <td>
-                                    <button class="btn btn-success btn-small">Approve</button>
-                                    <button class="btn btn-danger btn-small">Reject</button>
+                                    <form action="{{ route('movement-request.update',$item->id) }}" method="POST" class="d-inline">
+                                        @csrf
+                                        @method('PUT')
+                                        <button type="submit" value="accepted" name="status" class="btn btn-success btn-small">Approve</button>
+                                    </form>
+                                    <form action="{{ route('movement-request.update',$item->id) }}" method="POST" class="d-inline">
+                                        @csrf
+                                        @method('PUT')
+                                        <button type="submit" value="rejected" name="status" class="btn btn-danger btn-small">Reject</button>
+                                    </form>
                                 </td>
                             </tr>
+                            @empty
+                            <tr>
+                                <td colspan="7" class="text-center">Data Kosong</td>
+                            </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
