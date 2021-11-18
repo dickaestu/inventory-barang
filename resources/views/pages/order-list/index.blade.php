@@ -3,11 +3,37 @@
 
 @section('content')
 <div class="row">
+    <div class="col-12 col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h6>Export By Date</h6>
+            </div>
+            <div class="card-body">
+                <form target="_blank" action="{{ route('order-list.export-filter') }}" method="GET">
+                @csrf
+                    <div class="form-group">
+                        <label for="">Start Date</label>
+                        <input type="date" name="startDate" required class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="">End Date</label>
+                        <input type="date" name="endDate" required class="form-control">
+                    </div>
+
+                    <button class="btn btn-small btn-primary">Export</button>
+                </form>
+            </div>
+        </div>
+    </div>
     <div class="col-12">
         <div class="card">
-            <div class="card-header d-flex justify-content-between">
+            <div class="card-header d-flex justify-content-between border-bottom-0">
                 <h4>Order List</h4>
                 <a href="{{ route('order-list.create') }}" class="btn btn-small btn-primary"><i class="fas fa-plus"></i> Create Order List</a>
+            </div>
+            <div class="card-header d-flex justify-content-end">
+                <a target="_blank" href="{{ route('order-list.export') }}" class="btn btn-small btn-success"><i class="fas fa-file"></i> Export All</a>
+
             </div>
             <div class="card-body">
                 <div class="table-responsive">

@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Model\OrderList;
 use App\Model\ProductList;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use PDF;
 
 class OrderListController extends Controller
 {
@@ -45,6 +47,7 @@ class OrderListController extends Controller
         ]);
 
         $data = $request->all();
+        $data['order_time'] = Carbon::now()->format('Y-m-d');
         OrderList::create($data);
 
         return redirect()->route('order-list.index')->with('success','Data has been created');
@@ -111,4 +114,26 @@ class OrderListController extends Controller
         return redirect()->route('order-list.index')->with('success','Data has been deleted');
 
     }
+
+    public function export()
+    {
+        $items = OrderList::all();
+        $pdf = PDF::loadView('exports.order-list', ['items' => $items])->setPaper('a4', 'landscape');
+        return $pdf->stream();
+    }
+
+    public function exportByFilter(Request $request)
+    {
+        
+        $startDate =  $request->startDate;
+        $endDate   = $request->endDate;
+        $items = OrderList::whereBetween('created_at', [$startDate, $endDate])->get();
+        $pdf = PDF::loadView('exports.order-list-filter', [
+            'items' => $items,
+            'startDate' => $startDate,
+            'endDate' => $endDate
+        ])->setPaper('a4', 'landscape');
+        return $pdf->stream();
+    }
+
 }

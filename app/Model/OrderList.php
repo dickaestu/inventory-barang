@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class OrderList extends Model
 {
     protected $fillable = [
-        'product_list_id', 'name', 'phone_number', 'status'
+        'product_list_id', 'name', 'phone_number', 'status','order_time'
     ];
 
     public function productList()
