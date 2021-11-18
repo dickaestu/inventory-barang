@@ -20,14 +20,25 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @forelse ($items as $item)
                             <tr>
-                                <td>1</td>
-                                <td>Hardware</td>
+                                <td>{{ $item->id }}</td>
+                                <td>{{ $item->category }}</td>
                                 <td>
-                                    <button class="btn btn-warning btn-small btn-icon"><i class="fas fa-pencil-alt"></i></button>
-                                    <button class="btn btn-danger btn-small btn-icon"><i class="fas fa-trash-alt"></i></button>
+                                    <a href="{{ route('product-category.edit',$item->id) }}" class="btn btn-warning btn-small btn-icon"><i class="fas fa-pencil-alt"></i></a>
+                                    <form class="d-inline" action="{{ route('product-category.destroy',$item->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" onclick="return confirm('Are you sure?')" class="btn btn-danger btn-small btn-icon"><i class="fas fa-trash-alt"></i></button>
+                                    </form>
                                 </td>
                             </tr>
+                            @empty
+                            <tr>
+                                <td colspan="3" class="text-center">Data Kosong</td>
+                            </tr>
+                            @endforelse
+                            
                         </tbody>
                     </table>
                 </div>

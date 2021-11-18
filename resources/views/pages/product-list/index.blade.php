@@ -15,7 +15,7 @@
                         <thead>
                             <tr>
                                 <th>Product Name</th>
-                                <th>Spec Product</th>
+                                <th>Category Product</th>
                                 <th>Qty</th>
                                 <th>UOM</th>
                                 <th>Created At</th>
@@ -25,7 +25,7 @@
                         <tbody>
                             <tr>
                                 <td>Fiber Optic</td>
-                                <td>B2WN1HH3PE</td>
+                                <td>Test</td>
                                 <td>1</td>
                                 <td>Unit</td>
                                 <td>01-01-2021 00:00</td>
