@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Model\OrderList;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -13,7 +14,10 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view('pages.dashboard');
+        $pending = OrderList::where('status','pending')->count();
+        $accepted = OrderList::where('status','accepted')->count();
+        $rejected = OrderList::where('status','rejected')->count();
+        return view('pages.dashboard',compact('pending','accepted','rejected'));
     }
 
     /**

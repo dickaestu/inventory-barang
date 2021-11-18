@@ -17,13 +17,13 @@ Route::middleware(['auth'])
 ->group(function () {
     
     Route::get('/', 'DashboardController@index')->name('dashboard');
-    Route::get('/order-list/export', 'OrderListController@export')->name('order-list.export');
-    Route::get('/order-list/export/filter', 'OrderListController@exportByFilter')->name('order-list.export-filter');
+    Route::get('/order-list/export', 'OrderListController@export')->name('order-list.export')->middleware(['admin','kepala.bidang']);
+    Route::get('/order-list/export/filter', 'OrderListController@exportByFilter')->name('order-list.export-filter')->middleware(['admin','kepala.bidang']);
     
     
     Route::resource('/order-list', 'OrderListController');
     Route::resource('/product-list', 'ProductListController');
-    Route::resource('/product-category', 'ProductCategoryController')->middleware(['admin']);
+    Route::resource('/product-category', 'ProductCategoryController')->middleware(['kepala.bidang']);
     Route::resource('/movement-request', 'MovementRequestController')->middleware(['admin']);
     
 });

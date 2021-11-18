@@ -18,11 +18,13 @@
                         <li class="{{ request()->is('product-list*') ? "active" : "" }}"><a class="nav-link" href="{{ route('product-list.index') }}">Product List</a></li>
                     </ul>
                 </li>
-                <li class="{{ request()->is('product-category*') ? "active" : "" }}">
-                    <a class="nav-link" href="{{ route('product-category.index') }}"><i data-feather="list"></i>
-                        <span>Product Category</span>
-                    </a>
-                </li>
+                @if (Auth::user()->roles == "Admin" || Auth::user()->roles == 'Kepala Bidang')
+                    <li class="{{ request()->is('product-category*') ? "active" : "" }}">
+                        <a class="nav-link" href="{{ route('product-category.index') }}"><i data-feather="list"></i>
+                            <span>Product Category</span>
+                        </a>
+                    </li>
+                @endif
                 @if (Auth::user()->roles == "Admin")
                 <li class="{{ request()->is('movement-request*') ? "active" : "" }}">
                     <a class="nav-link" href="{{ route('movement-request.index') }}"><i data-feather="mail"></i>

@@ -3,6 +3,7 @@
 
 @section('content')
 <div class="row">
+    @if (Auth::user()->roles != 'Teknisi')
     <div class="col-12 col-md-6">
         <div class="card">
             <div class="card-header">
@@ -10,7 +11,7 @@
             </div>
             <div class="card-body">
                 <form target="_blank" action="{{ route('order-list.export-filter') }}" method="GET">
-                @csrf
+                    @csrf
                     <div class="form-group">
                         <label for="">Start Date</label>
                         <input type="date" name="startDate" required class="form-control">
@@ -19,12 +20,13 @@
                         <label for="">End Date</label>
                         <input type="date" name="endDate" required class="form-control">
                     </div>
-
+                    
                     <button class="btn btn-small btn-primary">Export</button>
                 </form>
             </div>
         </div>
     </div>
+    @endif
     <div class="col-12">
         <div class="card">
             <div class="card-header d-flex justify-content-between border-bottom-0">
@@ -32,8 +34,10 @@
                 <a href="{{ route('order-list.create') }}" class="btn btn-small btn-primary"><i class="fas fa-plus"></i> Create Order List</a>
             </div>
             <div class="card-header d-flex justify-content-end">
-                <a target="_blank" href="{{ route('order-list.export') }}" class="btn btn-small btn-success"><i class="fas fa-file"></i> Export All</a>
-
+                @if (Auth::user()->roles != 'Teknisi')
+                    <a target="_blank" href="{{ route('order-list.export') }}" class="btn btn-small btn-success"><i class="fas fa-file"></i> Export All</a>
+                
+                @endif
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -51,33 +55,33 @@
                         </thead>
                         <tbody>
                             @forelse ($items as $item)
-                                <tr>
-                                    <td>ORM-{{ $item->id }}</td>
-                                    <td>{{ $item->productList->product_name }}</td>
-                                    <td>{{ $item->name }}</td>
-                                    <td>{{ $item->phone_number }}</td>
-                                    <td>{{ $item->status }}</td>
-                                    <td>{{ Carbon\Carbon::create($item->created_at)->format('d-m-Y H:i') }}</td>
-                                    <td>
-                                        @if ($item->status == "pending")
-                                            <a href="{{ route('order-list.edit',$item->id) }}" class="btn btn-warning btn-small btn-icon"><i class="fas fa-pencil-alt"></i></a>
-                                            <form class="d-inline" action="{{ route('order-list.destroy',$item->id) }}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button onclick="return confirm('Are you sure?')" type="submit" class="btn btn-danger btn-small btn-icon"><i class="fas fa-trash-alt"></i></button>
-                                            </form>
-                                        @else 
-                                            <a href="#" class="btn btn-secondary disabled btn-small btn-icon"><i class="fas fa-pencil-alt"></i></a>
-                                            <a href="#" class="btn btn-secondary disabled btn-small btn-icon"><i class="fas fa-trash-alt"></i></a>
-                                        @endif
-                                    </td>
-                                </tr>
+                            <tr>
+                                <td>ORM-{{ $item->id }}</td>
+                                <td>{{ $item->productList->product_name }}</td>
+                                <td>{{ $item->name }}</td>
+                                <td>{{ $item->phone_number }}</td>
+                                <td>{{ $item->status }}</td>
+                                <td>{{ Carbon\Carbon::create($item->created_at)->format('d-m-Y H:i') }}</td>
+                                <td>
+                                    @if ($item->status == "pending")
+                                    <a href="{{ route('order-list.edit',$item->id) }}" class="btn btn-warning btn-small btn-icon"><i class="fas fa-pencil-alt"></i></a>
+                                    <form class="d-inline" action="{{ route('order-list.destroy',$item->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button onclick="return confirm('Are you sure?')" type="submit" class="btn btn-danger btn-small btn-icon"><i class="fas fa-trash-alt"></i></button>
+                                    </form>
+                                    @else 
+                                    <a href="#" class="btn btn-secondary disabled btn-small btn-icon"><i class="fas fa-pencil-alt"></i></a>
+                                    <a href="#" class="btn btn-secondary disabled btn-small btn-icon"><i class="fas fa-trash-alt"></i></a>
+                                    @endif
+                                </td>
+                            </tr>
                             @empty
-                                <tr>
-                                    <td colspan="7" class="text-center">Data Kosong</td>
-                                </tr>
+                            <tr>
+                                <td colspan="7" class="text-center">Data Kosong</td>
+                            </tr>
                             @endforelse
-                           
+                            
                         </tbody>
                     </table>
                 </div>

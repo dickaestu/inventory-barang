@@ -9,4 +9,4 @@
   <link rel="stylesheet" href="{{ asset('assets/css/components.css') }}">
   <!-- Custom style CSS -->
   <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
-  <link rel='shortcut icon' type='image/x-icon' href='{{ asset('assets/img/favicon.ico') }}' />
+  {{-- <link rel='shortcut icon' type='image/x-icon' href='{{ asset('assets/img/favicon.ico') }}' /> --}}
