@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('title','Create Order List')
+@section('title','Edit Order List')
 
 @section('content')
 <div class="row">
@@ -7,25 +7,26 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb bg-transparent">
                 <li class="breadcrumb-item"><a href="{{ route('order-list.index') }}">Back</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Create Order List</li>
+                <li class="breadcrumb-item active" aria-current="page">Edit Order List</li>
             </ol>
         </nav>
     </div>
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h4>Create Order List</h4>
+                <h4>Edit Order List</h4>
             </div>
-            <form action="{{ route('order-list.store') }}" method="POST" class="needs-validation" novalidate>
+            <form action="{{ route('order-list.update', $item->id) }}" method="POST" class="needs-validation" novalidate>
                 <div class="card-body">
                     @csrf
+                    @method('PUT')
                     
                     <div class="form-group">
                         <label for="product_list_id">Product</label>
                         <select  name="product_list_id" id="product_list_id" class="form-control @error('product_list_id') is-invalid @enderror"  required> 
                             <option value="">Choose Product</option>
-                            @foreach ($product_lists as $item)
-                                <option value="{{ $item->id }}">{{ $item->product_name }}</option>
+                            @foreach ($product_lists as $product)
+                                <option @if ($product->id == $item->product_list_id) selected @endif value="{{ $product->id }}">{{ $product->product_name }}</option>
                             @endforeach
                         </select>                        
                         <div class="invalid-feedback">
@@ -38,7 +39,7 @@
                     
                     <div class="form-group">
                         <label for="name">Name</label>
-                        <input placeholder="Please input name..." type="text" name="name" id="name" value="{{ old('name') }}" class="form-control @error('name') is-invalid @enderror"  required>
+                        <input placeholder="Please input name..." type="text" name="name" id="name" value="{{ $item->name }}" class="form-control @error('name') is-invalid @enderror"  required>
                         <div class="invalid-feedback">
                             Name is invalid
                         </div>
@@ -49,7 +50,7 @@
                     
                     <div class="form-group">
                         <label for="phone_number">Phone Number</label>
-                        <input placeholder="Please input phone number..." min="0" type="number" name="phone_number" id="phone_number" value="{{ old('phone_number') }}" class="form-control @error('phone_number') is-invalid @enderror"  required>
+                        <input placeholder="Please input phone number..." min="0" type="number" name="phone_number" id="phone_number" value="{{ $item->phone_number }}" class="form-control @error('phone_number') is-invalid @enderror"  required>
                         <div class="invalid-feedback">
                             Phone number is invalid
                         </div>

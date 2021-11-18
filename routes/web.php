@@ -21,7 +21,7 @@ Route::get('/', 'DashboardController@index')->name('dashboard');
 
 Route::resource('/order-list', 'OrderListController');
 Route::resource('/product-list', 'ProductListController');
-Route::resource('/product-category', 'ProductCategoryController');
+Route::resource('/product-category', 'ProductCategoryController')->middleware(['admin']);
 Route::resource('/movement-request', 'MovementRequestController')->middleware(['admin']);
     });
 

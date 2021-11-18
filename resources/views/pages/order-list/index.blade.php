@@ -15,7 +15,7 @@
                         <thead>
                             <tr>
                                 <th>Invoice No</th>
-                                <th>Package</th>
+                                <th>Product</th>
                                 <th>Name</th>
                                 <th>Phone</th>
                                 <th>Status</th>
@@ -24,18 +24,29 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>ORM-1</td>
-                                <td>Fiber Optic</td>
-                                <td>Andre Kresna</td>
-                                <td>08123123221</td>
-                                <td>Movement Request Approve By Admin</td>
-                                <td>01-01-2021 00:00</td>
-                                <td>
-                                    <button class="btn btn-warning btn-small btn-icon"><i class="fas fa-pencil-alt"></i></button>
-                                    <button class="btn btn-danger btn-small btn-icon"><i class="fas fa-trash-alt"></i></button>
-                                </td>
-                            </tr>
+                            @forelse ($items as $item)
+                                <tr>
+                                    <td>ORM-{{ $item->id }}</td>
+                                    <td>{{ $item->productList->product_name }}</td>
+                                    <td>{{ $item->name }}</td>
+                                    <td>{{ $item->phone_number }}</td>
+                                    <td>{{ $item->status }}</td>
+                                    <td>{{ Carbon\Carbon::create($item->created_at)->format('d-m-Y H:i') }}</td>
+                                    <td>
+                                        <a href="{{ route('order-list.edit',$item->id) }}" class="btn btn-warning btn-small btn-icon"><i class="fas fa-pencil-alt"></i></a>
+                                        <form class="d-inline" action="{{ route('order-list.destroy',$item->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button onclick="return confirm('Are you sure?')" type="submit" class="btn btn-danger btn-small btn-icon"><i class="fas fa-trash-alt"></i></button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="7" class="text-center">Data Kosong</td>
+                                </tr>
+                            @endforelse
+                           
                         </tbody>
                     </table>
                 </div>

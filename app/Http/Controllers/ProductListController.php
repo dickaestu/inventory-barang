@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Model\ProductCategory;
+use App\Model\ProductList;
 use Illuminate\Http\Request;
 
 class ProductListController extends Controller
@@ -13,7 +15,8 @@ class ProductListController extends Controller
      */
     public function index()
     {
-        return view('pages.product-list.index');
+        $items = ProductList::all();
+        return view('pages.product-list.index',compact('items'));
     }
 
     /**
@@ -23,7 +26,8 @@ class ProductListController extends Controller
      */
     public function create()
     {
-        return view('pages.product-list.create');
+        $categories = ProductCategory::all();
+        return view('pages.product-list.create',compact('categories'));
     }
 
     /**
@@ -34,7 +38,16 @@ class ProductListController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'product_category_id'=>['required'],
+            'product_name' => ['required','string'],
+            'uom' => ['required','string'],
+            'quantity' => ['required','integer']
+        ]);
+
+        $data = $request->all();
+        ProductList::create($data);
+        return redirect()->route('product-list.index')->with('success','Data has been created');
     }
 
     /**
@@ -56,7 +69,11 @@ class ProductListController extends Controller
      */
     public function edit($id)
     {
-        //
+        $item = ProductList::findOrFail($id);
+        $categories = ProductCategory::all();
+
+        return view('pages.product-list.edit',compact('item','categories'));
+
     }
 
     /**
@@ -68,7 +85,17 @@ class ProductListController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'product_category_id'=>['required'],
+            'product_name' => ['required','string'],
+            'uom' => ['required','string'],
+            'quantity' => ['required','integer']
+        ]);
+
+        $data = $request->all();
+        $item = ProductList::findOrFail($id);
+        $item->update($data);
+        return redirect()->route('product-list.index')->with('success','Data has been updated');
     }
 
     /**
@@ -79,6 +106,9 @@ class ProductListController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $item = ProductList::findOrFail($id);
+
+        $item->delete();
+        return redirect()->route('product-list.index')->with('success','Data has been deleted');
     }
 }

@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('title','Create Product List')
+@section('title','Edit Product List')
 
 @section('content')
 <div class="row">
@@ -7,22 +7,23 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb bg-transparent">
                 <li class="breadcrumb-item"><a href="{{ route('product-list.index') }}">Back</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Create Product List</li>
+                <li class="breadcrumb-item active" aria-current="page">Edit Product List</li>
             </ol>
         </nav>
     </div>
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h4>Create Product List</h4>
+                <h4>Edit Product List</h4>
             </div>
-            <form action="{{ route('product-list.store') }}" method="POST" class="needs-validation" novalidate>
+            <form action="{{ route('product-list.update',$item->id) }}" method="POST" class="needs-validation" novalidate>
                 <div class="card-body">
                     @csrf
+                    @method('PUT')
                     
                     <div class="form-group">
                         <label for="product_name">Product Name</label>
-                        <input placeholder="Please input product name..." type="text" name="product_name" id="product_name" value="{{ old('product_name') }}" class="form-control @error('product_name') is-invalid @enderror"  required>
+                        <input placeholder="Please input product name..." type="text" name="product_name" id="product_name" value="{{ $item->product_name }}" class="form-control @error('product_name') is-invalid @enderror"  required>
                         <div class="invalid-feedback">
                             Product name is invalid
                         </div>
@@ -35,8 +36,8 @@
                         <label for="product_category_id">Category Product</label>
                         <select  name="product_category_id" id="product_category_id" class="form-control @error('product_category_id') is-invalid @enderror"  required> 
                             <option value="">Choose Category</option>
-                            @foreach ($categories as $item)
-                                <option value="{{ $item->id }}">{{ $item->category }}</option>
+                            @foreach ($categories as $category)
+                                <option @if ($category->id == $item->product_category_id) selected @endif value="{{ $category->id }}">{{ $category->category }}</option>
                             @endforeach
                         </select>
                         <div class="invalid-feedback">
@@ -49,7 +50,7 @@
                     
                     <div class="form-group">
                         <label for="quantity">Quantity</label>
-                        <input placeholder="Please input quantity..." type="number" min="0" name="quantity" id="quantity" value="{{ old('quantity') }}" class="form-control @error('quantity') is-invalid @enderror"  required>
+                        <input placeholder="Please input quantity..." type="number" min="0" name="quantity" id="quantity" value="{{ $item->quantity }}" class="form-control @error('quantity') is-invalid @enderror"  required>
                         <div class="invalid-feedback">
                             Quantity is invalid
                         </div>
@@ -60,7 +61,7 @@
                     
                     <div class="form-group">
                         <label for="uom">UOM</label>
-                        <input placeholder="Please input UOM..." type="text" name="uom" id="uom" value="{{ old('uom') }}" class="form-control @error('uom') is-invalid @enderror"  required>
+                        <input placeholder="Please input UOM..." type="text" name="uom" id="uom" value="{{ $item->uom }}" class="form-control @error('uom') is-invalid @enderror"  required>
                         <div class="invalid-feedback">
                             Product name is invalid
                         </div>

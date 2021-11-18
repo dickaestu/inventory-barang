@@ -18,7 +18,7 @@ class CreateTableOrderLists extends Migration
             $table->foreignId('product_list_id');
             $table->string('name');
             $table->string('phone_number',13);
-            $table->boolean('status');
+            $table->enum('status',['pending','accepted','rejected'])->default('pending');
             $table->timestamps();
 
             $table->foreign('product_list_id')->references('id')->on('product_lists')->onUpdate('cascade');

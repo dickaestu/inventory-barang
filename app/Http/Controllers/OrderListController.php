@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Model\OrderList;
+use App\Model\ProductList;
 use Illuminate\Http\Request;
 
 class OrderListController extends Controller
@@ -13,7 +15,8 @@ class OrderListController extends Controller
      */
     public function index()
     {
-        return view('pages.order-list.index');
+        $items = OrderList::all();
+        return view('pages.order-list.index',compact('items'));
     }
 
     /**
@@ -23,7 +26,8 @@ class OrderListController extends Controller
      */
     public function create()
     {
-        return view('pages.order-list.create');
+        $product_lists = ProductList::all();
+        return view('pages.order-list.create',compact('product_lists'));
     }
 
     /**
@@ -34,7 +38,16 @@ class OrderListController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'product_list_id'=>['required'],
+            'name' => ['required','string'],
+            'phone_number' => ['required','string'],
+        ]);
+
+        $data = $request->all();
+        OrderList::create($data);
+
+        return redirect()->route('order-list.index')->with('success','Data has been created');
     }
 
     /**
@@ -56,7 +69,10 @@ class OrderListController extends Controller
      */
     public function edit($id)
     {
-        //
+        $item = OrderList::findOrFail($id);
+        $product_lists = ProductList::all();
+
+        return view('pages.order-list.edit',compact('item','product_lists'));
     }
 
     /**
@@ -68,7 +84,17 @@ class OrderListController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'product_list_id'=>['required'],
+            'name' => ['required','string'],
+            'phone_number' => ['required','string'],
+        ]);
+
+        $data = $request->all();
+        $item = OrderList::findOrFail($id);
+
+        $item->update($data);
+        return redirect()->route('order-list.index')->with('success','Data has been updated');
     }
 
     /**
@@ -79,6 +105,10 @@ class OrderListController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $item = OrderList::findOrFail($id);
+
+        $item->delete();
+        return redirect()->route('order-list.index')->with('success','Data has been deleted');
+
     }
 }

@@ -23,17 +23,29 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Fiber Optic</td>
-                                <td>Test</td>
-                                <td>1</td>
-                                <td>Unit</td>
-                                <td>01-01-2021 00:00</td>
-                                <td>
-                                    <button class="btn btn-warning btn-small btn-icon"><i class="fas fa-pencil-alt"></i></button>
-                                    <button class="btn btn-danger btn-small btn-icon"><i class="fas fa-trash-alt"></i></button>
-                                </td>
-                            </tr>
+                            @forelse ($items as $item)
+                                <tr>
+                                    <td>{{ $item->product_name }}</td>
+                                    <td>{{ $item->productCategory->category }}</td>
+                                    <td>{{ $item->quantity }}</td>
+                                    <td>{{ $item->uom }}</td>
+                                    <td>{{ Carbon\Carbon::create($item->created_at)->format('d-m-Y H:i') }}</td>
+                                    <td>
+                                        <a href="{{ route('product-list.edit', $item->id) }}" class="btn btn-warning btn-small btn-icon"><i class="fas fa-pencil-alt"></i></a>
+                                        <form class="d-inline" action="{{ route('product-list.destroy',$item->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" onclick="return confirm('Are you sure?')" class="btn btn-danger btn-small btn-icon"><i class="fas fa-trash-alt"></i></button>
+
+                                        </form>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="6" class="text-center">Data Kosong</td>
+                                </tr>
+                            @endforelse
+                           
                         </tbody>
                     </table>
                 </div>
