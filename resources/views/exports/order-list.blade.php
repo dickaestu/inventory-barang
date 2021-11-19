@@ -43,6 +43,7 @@
                 <th>Product</th>
                 <th>Name</th>
                 <th>Phone</th>
+                <th>Quantity</th>
                 <th>Status</th>
                 <th>Order Time</th>
             </tr>
@@ -55,6 +56,7 @@
                 <td>{{ $item->productList->product_name }}</td>
                 <td>{{ $item->name }}</td>
                 <td>{{ $item->phone_number }}</td>
+                <td>{{ $item->quantity }}</td>
                 <td>{{ $item->status }}</td>
                 <td>{{ Carbon\Carbon::create($item->created_at)->format('d-m-Y H:i') }}</td>
             </tr>

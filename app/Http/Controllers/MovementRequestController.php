@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Model\OrderList;
+use App\Model\ProductList;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class MovementRequestController extends Controller
@@ -14,7 +16,7 @@ class MovementRequestController extends Controller
      */
     public function index()
     {
-        $items = OrderList::where('status','pending')->get();
+        $items = OrderList::where('status','!=','rejected')->get();
         return view('pages.movement-request.index', compact('items'));
     }
 
@@ -71,9 +73,21 @@ class MovementRequestController extends Controller
     public function update(Request $request, $id)
     {
         $item = OrderList::findOrFail($id);
-        $item->update([
-            'status'=>$request->status
-        ]);
+        $product_list = ProductList::findOrFail($item->product_list_id);
+         
+        if($request->status == 'accepted'){
+            $product_list->quantity -= $item->quantity;
+            $product_list->save();
+
+            $item->update([
+                'status'=>$request->status,
+                'approved_at'=>Carbon::now()
+            ]);
+        } else {
+            $item->update([
+                'status'=>$request->status
+            ]);
+        }
 
         return redirect()->route('movement-request.index')->with('success','Successfully changed status');
     }

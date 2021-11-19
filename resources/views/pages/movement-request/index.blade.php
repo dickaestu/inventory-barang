@@ -32,16 +32,20 @@
                                 <td>{{ $item->status }}</td>
                                 <td>{{ Carbon\Carbon::create($item->created_at)->format('d-m-Y H:i') }}</td>
                                 <td>
-                                    <form action="{{ route('movement-request.update',$item->id) }}" method="POST" class="d-inline">
-                                        @csrf
-                                        @method('PUT')
-                                        <button type="submit" value="accepted" name="status" class="btn btn-success btn-small">Approve</button>
-                                    </form>
-                                    <form action="{{ route('movement-request.update',$item->id) }}" method="POST" class="d-inline">
-                                        @csrf
-                                        @method('PUT')
-                                        <button type="submit" value="rejected" name="status" class="btn btn-danger btn-small">Reject</button>
-                                    </form>
+                                    @if ($item->status == 'accepted')
+                                        <a href="#" target="_blank" class="btn btn-primary btn-small">Print Invoice</a>
+                                    @else   
+                                        <form action="{{ route('movement-request.update',$item->id) }}" method="POST" class="d-inline">
+                                            @csrf
+                                            @method('PUT')
+                                            <button type="submit" value="accepted" name="status" class="btn btn-success btn-small">Approve</button>
+                                        </form>
+                                        <form action="{{ route('movement-request.update',$item->id) }}" method="POST" class="d-inline">
+                                            @csrf
+                                            @method('PUT')
+                                            <button type="submit" value="rejected" name="status" class="btn btn-danger btn-small">Reject</button>
+                                        </form>
+                                    @endif
                                 </td>
                             </tr>
                             @empty

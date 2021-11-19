@@ -58,6 +58,17 @@
                         @enderror
                     </div>
                     
+                    <div class="form-group">
+                        <label for="quantity">Quantity</label>
+                        <input placeholder="Please input quantity..." min="0" type="number" name="quantity" id="quantity" value="{{ old('quantity') }}" class="form-control @error('quantity') is-invalid @enderror"  required>
+                        <div class="invalid-feedback">
+                            Phone number is invalid
+                        </div>
+                        @error('quantity')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    
                 </div>
                 <div class="card-footer text-center">
                     <button type="submit" class="btn btn-primary btn-lg">Submit</button>

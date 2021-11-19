@@ -44,7 +44,13 @@ class OrderListController extends Controller
             'product_list_id'=>['required'],
             'name' => ['required','string'],
             'phone_number' => ['required','string'],
+            'quantity'=>['required','numeric','min:0']
         ]);
+
+        $product_list = ProductList::findOrFail($request->product_list_id);
+        if($request->quantity > $product_list->quantity){
+            return redirect()->back()->with('warning','This product only have '.$product_list->quantity. ' quantity');
+        }
 
         $data = $request->all();
         $data['order_time'] = Carbon::now()->format('Y-m-d');
