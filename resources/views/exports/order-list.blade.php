@@ -31,12 +31,25 @@
 </head>
 <body>
     
-    <div style="display: flex; align-items: center; ">
-        <h2 style="text-align:center;">Order List</h2> 
+    <div >
+        <table width="100%">
+            <td width="10%">
+                <img  src="{{public_path('assets/img/logo-setjen.jpg')}}" height="150" width="150">
+            </td>
+            <td width="90%" style="text-align: center">
+                <div>
+                    <h4 style="">SEKRETARIAT JENDERAL</h4>
+                    <h4 style="">DEWAN PERWAKILAN RAKYAT REPUBLIK INDONESIA</h4>
+                    <p style="font-size: 14px">JLN. JENDERAL GATOT SUBROTO JAKARTA KODE POS 10270</p>
+                    <p style="font-size: 14px">TELP (021) 5715 349 FAX (021) 5715 423 / 5715 925, WEBSITE: www.dpr.go.id</p>
+                </div>
+            </td>
+        </table>
+        
     </div>
     
     
-    <table style="text-align: center; " border="1" cellspacing="0" cellpadding="8" width="100%">
+    <table style="text-align: center; margin-top:40px" border="1" cellspacing="0" cellpadding="8" width="100%">
         <thead>
             <tr>
                 <th>Invoice No</th>
@@ -60,11 +73,11 @@
                 <td>{{ $item->status }}</td>
                 <td>{{ Carbon\Carbon::create($item->created_at)->format('d-m-Y H:i') }}</td>
             </tr>
-
+            
             @empty
-                <tr>
-                    <td colspan="6" style="text-align: center">Data Kosong</td>
-                </tr>
+            <tr>
+                <td colspan="6" style="text-align: center">Data Kosong</td>
+            </tr>
             @endforelse
             
         </tbody>
