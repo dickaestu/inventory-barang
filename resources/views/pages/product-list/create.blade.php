@@ -30,13 +30,13 @@
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
-                
+                    
                     <div class="form-group">
                         <label for="product_category_id">Category Product</label>
                         <select  name="product_category_id" id="product_category_id" class="form-control @error('product_category_id') is-invalid @enderror"  required> 
                             <option value="">Choose Category</option>
                             @foreach ($categories as $item)
-                                <option value="{{ $item->id }}">{{ $item->category }}</option>
+                            <option value="{{ $item->id }}">{{ $item->category }}</option>
                             @endforeach
                         </select>
                         <div class="invalid-feedback">
@@ -60,9 +60,15 @@
                     
                     <div class="form-group">
                         <label for="uom">UOM</label>
-                        <input placeholder="Please input UOM..." type="text" name="uom" id="uom" value="{{ old('uom') }}" class="form-control @error('uom') is-invalid @enderror"  required>
+                        <select  name="uom" id="uom" class="form-control @error('uom') is-invalid @enderror"  required> 
+                            <option value="">Choose UOM</option>
+                            <option value="Unit">Unit</option>
+                            <option value="Pcs">Pcs</option>
+                            <option value="Meter">Meter</option>
+                            <option value="Roll">Roll</option>
+                        </select>                       
                         <div class="invalid-feedback">
-                            Product name is invalid
+                            UOM is invalid
                         </div>
                         @error('uom')
                         <div class="invalid-feedback">{{ $message }}</div>

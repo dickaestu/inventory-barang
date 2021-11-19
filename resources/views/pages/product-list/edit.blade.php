@@ -61,9 +61,15 @@
                     
                     <div class="form-group">
                         <label for="uom">UOM</label>
-                        <input placeholder="Please input UOM..." type="text" name="uom" id="uom" value="{{ $item->uom }}" class="form-control @error('uom') is-invalid @enderror"  required>
+                        <select  name="uom" id="uom" class="form-control @error('uom') is-invalid @enderror"  required> 
+                            <option value="">Choose UOM</option>
+                            <option value="Unit" @if($item->uom == "Unit") selected @endif>Unit</option>
+                            <option value="Pcs" @if($item->uom == "Pcs") selected @endif>Pcs</option>
+                            <option value="Meter" @if($item->uom == "Meter") selected @endif>Meter</option>
+                            <option value="Roll" @if($item->uom == "Roll") selected @endif>Roll</option>
+                        </select>                       
                         <div class="invalid-feedback">
-                            Product name is invalid
+                            UOM is invalid
                         </div>
                         @error('uom')
                         <div class="invalid-feedback">{{ $message }}</div>
