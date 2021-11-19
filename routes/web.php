@@ -19,6 +19,8 @@ Route::middleware(['auth'])
     Route::get('/', 'DashboardController@index')->name('dashboard');
     Route::get('/order-list/export', 'OrderListController@export')->name('order-list.export')->middleware(['admin','kepala.bidang']);
     Route::get('/order-list/export/filter', 'OrderListController@exportByFilter')->name('order-list.export-filter')->middleware(['admin','kepala.bidang']);
+    Route::get('/movement-request/print-invoice/{id}', 'MovementRequestController@printInvoice')->name('print-invoice')->middleware(['admin','kepala.bidang']);
+
     
     
     Route::resource('/order-list', 'OrderListController');

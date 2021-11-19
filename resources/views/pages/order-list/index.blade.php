@@ -63,7 +63,7 @@
                                 <td>{{ $item->phone_number }}</td>
                                 <td>{{ $item->quantity }}</td>
                                 <td>{{ $item->status }}</td>
-                                <td>{{ Carbon\Carbon::create($item->created_at)->format('d-m-Y H:i') }}</td>
+                                <td>{{ Carbon\Carbon::parse($item->created_at)->format('d-m-Y H:i') }}</td>
                                 <td>
                                     @if ($item->status == "pending")
                                     <a href="{{ route('order-list.edit',$item->id) }}" class="btn btn-warning btn-small btn-icon"><i class="fas fa-pencil-alt"></i></a>
@@ -72,6 +72,8 @@
                                         @method('DELETE')
                                         <button onclick="return confirm('Are you sure?')" type="submit" class="btn btn-danger btn-small btn-icon"><i class="fas fa-trash-alt"></i></button>
                                     </form>
+                                    @elseif ($item->status == 'accepted')
+                                    <a href="{{ route('print-invoice',$item->id) }}" target="_blank" class="btn btn-primary btn-small">Print Invoice</a>
                                     @else 
                                     <a href="#" class="btn btn-secondary disabled btn-small btn-icon"><i class="fas fa-pencil-alt"></i></a>
                                     <a href="#" class="btn btn-secondary disabled btn-small btn-icon"><i class="fas fa-trash-alt"></i></a>

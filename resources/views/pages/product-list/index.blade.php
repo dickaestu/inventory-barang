@@ -31,7 +31,7 @@
                                 <td>{{ $item->productCategory->category }}</td>
                                 <td>{{ $item->quantity }}</td>
                                 <td>{{ $item->uom }}</td>
-                                <td>{{ Carbon\Carbon::create($item->created_at)->format('d-m-Y H:i') }}</td>
+                                <td>{{ Carbon\Carbon::parse($item->created_at)->format('d-m-Y H:i') }}</td>
                                 <td>
                                     @if (Auth::user()->roles != 'Teknisi')
                                     <a href="{{ route('product-list.edit', $item->id) }}" class="btn btn-warning btn-small btn-icon"><i class="fas fa-pencil-alt"></i></a>

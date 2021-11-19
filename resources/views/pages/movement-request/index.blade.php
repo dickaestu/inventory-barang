@@ -30,10 +30,10 @@
                                 <td>{{ $item->name }}</td>
                                 <td>{{ $item->phone_number }}</td>
                                 <td>{{ $item->status }}</td>
-                                <td>{{ Carbon\Carbon::create($item->created_at)->format('d-m-Y H:i') }}</td>
+                                <td>{{ Carbon\Carbon::parse($item->created_at)->format('d-m-Y H:i') }}</td>
                                 <td>
                                     @if ($item->status == 'accepted')
-                                        <a href="#" target="_blank" class="btn btn-primary btn-small">Print Invoice</a>
+                                        <a href="{{ route('print-invoice',$item->id) }}" target="_blank" class="btn btn-primary btn-small">Print Invoice</a>
                                     @else   
                                         <form action="{{ route('movement-request.update',$item->id) }}" method="POST" class="d-inline">
                                             @csrf

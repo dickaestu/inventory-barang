@@ -6,6 +6,7 @@ use App\Model\OrderList;
 use App\Model\ProductList;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use PDF;
 
 class MovementRequestController extends Controller
 {
@@ -101,5 +102,11 @@ class MovementRequestController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function printInvoice($id){
+        $item = OrderList::findOrFail($id);
+        $pdf = PDF::loadView('exports.print-invoice', ['item' => $item])->setPaper('a4');
+        return $pdf->stream();
     }
 }
