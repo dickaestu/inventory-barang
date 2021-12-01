@@ -12,6 +12,6 @@ class OrderList extends Model
 
     public function productList()
     {
-        return $this->belongsTo(ProductList::class, 'product_list_id', 'id');
+        return $this->belongsTo(ProductList::class, 'product_list_id', 'id')->withTrashed();
     }
 }
